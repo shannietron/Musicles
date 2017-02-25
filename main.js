@@ -6,6 +6,7 @@ console.log("banououououou");
 
 console.log(Myo);
 
+var avg= 0;
 Myo.connect();
 
 Myo.on('connected', function(){
@@ -15,19 +16,37 @@ Myo.on('connected', function(){
 
 });
 
+function song(){
+	console.log(Math.ceil(avg))
+	
+	
+	MIDI.noteOn(0, avg, 127, 0.01);
+
+}
+
 Myo.on('emg', function(data){
 	var absolute = Math.abs(data);
 	var linearScale = d3.scaleLinear()
 	                           .domain([0,200])
 	                           .range([41,76]);
+	var total= 0;
     //var normalized = normalize(absolute);
     for (var i = 0, len = data.length; i < 8; i++) {
   		data[i]=Math.abs(data[i]);
   		data[i]= linearScale(data[i]);
+  		total += data[i];
 
 	}
-    console.log(data);
-    // console.log(linearScale(data));
+	avg= total/data.length;
+	
+	var delayMillis = 1000; //1 second
+
+	setTimeout(function() {
+		var id = setInterval(song, 10000);	},
+		 delayMillis);
+		
+
+
 });
 
 console.log("boop")
@@ -57,7 +76,6 @@ function getChord() {
   }
 
 
-
 window.onload = function () {
 	MIDI.loadPlugin({
 		soundfontUrl: "./soundfont/",
@@ -71,21 +89,27 @@ window.onload = function () {
 			var velocity = 127; // how hard the note hits
 			// play the note
 			MIDI.setVolume(0, 127);
+			MIDI.noteOn(0, avg, 127, 0.01);
 			//MIDI.noteOn(0, note, velocity, delay);
 			//MIDI.noteOff(0, note, delay + 0.75);
-			Myo.on('fist', function(){
-			    console.log('fist');
-				MIDI.noteOn(0, getNote(5), 127, 0.01);
-			});
+			// Myo.on('fist', function(){
+			//     console.log('fist');
+			// MIDI.noteOn(0, 50 q, 127, 0.01);
+			// });
 			// Myo.on('tap', function(){
 			// 	MIDI.noteOn(0, getNote(5), 127, 0.01);
 			// 	console.log("tap!!!")
 			// });
+			// function playback(){
+			// 	console.log(avg)
+			// 	MIDI.noteOn(0, avg, 127, 0.01);
 
-			Myo.on('hard_tap', function(){
-				MIDI.noteOn(0, 71, 127, 0.01);
-				console.log("hardtap!!!")
-			});
+			// }
+			// var id = setInterval('playback();',1000)
+			// Myo.on('hard_tap', function(){
+			// 	MIDI.noteOn(0, 71, 127, 0.01);
+			// 	console.log("hardtap!!!")
+			// });
 
 
 		}
