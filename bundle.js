@@ -21,7 +21,7 @@ function song(){
 	console.log(Math.ceil(avg))
 	
 	
-	MIDI.noteOn(0, avg, 127, 0.01);
+	MIDI.noteOn(0, Math.ceil(avg), 127, 0.01);
 
 }
 
@@ -39,16 +39,19 @@ Myo.on('emg', function(data){
 
 	}
 	avg= total/data.length;
-	
-	var delayMillis = 1000; //1 second
 
-	setTimeout(function() {
-		var id = setInterval(song, 10000);	},
-		 delayMillis);
+
+	
+	// var delayMillis = 1000; //1 second
+
+	// setTimeout(function() {
+	// 		},
+	// 	 delayMillis);
 		
 
 
 });
+var id = setInterval(song, 1000);
 
 console.log("boop")
 
