@@ -8,6 +8,7 @@ console.log("banououououou");
 console.log(Myo);
 
 var avg= 0;
+var velocity=0;
 Myo.connect();
 // console.log("HELLO")
 Myo.on('connected', function(){
@@ -18,10 +19,10 @@ Myo.on('connected', function(){
 	});
 
 	function song(){
-		console.log(Math.ceil(avg))
+		// console.log(Math.ceil(avg))
+		console.log(velocity)
 		
-		
-		MIDI.noteOn(0, Math.ceil(avg), 127, 0.001);
+		MIDI.noteOn(0, Math.ceil(avg), velocity, 0.001);
 
 	}
 
@@ -64,17 +65,21 @@ Myo.on('connected', function(){
 //   }
  
 // };
-Myo.connect();
+// Myo.connect();
 
 Myo.on('imu', function(data){
 	var last= this.lastIMU.accelerometer;
-	console.log(last)
+	// console.log(last)
+	var linearScale = d3.scaleLinear()
+	                           .domain([-2,2])
+	                           .range([0,120]);
 	
-	
-	for (var i = 0, len = data.length; i < 3; i++) {
-	  		data[i]=Math.abs(data[i]);
-	  		// data[i]= linearScale(data[i]);
-	  		}
+	// for (var i = 0, len = last.length; i < 2; i++) {
+	  		// console.log(last.x)
+  		last.x= Math.ceil(linearScale(last.x));
+	  		// console.log(last[i])
+	  		// }
+  		velocity= 120-last.x;
 	
 });
 
