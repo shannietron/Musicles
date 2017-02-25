@@ -4,7 +4,8 @@
   "description": "Generate music from EMG data",
   "main": "main.js",
   "scripts": {
-    "start": "browserify main.js -o bundle.js && http-server"
+    "watch": "watchify main.js -o bundle.js -v",
+    "serve": "http-server -a localhost -p 8000 -c-1"
   },
   "repository": {
     "type": "git",
