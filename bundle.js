@@ -9,6 +9,7 @@ console.log(Myo);
 
 var avg= 0;
 var velocity=0;
+var volumeToggle = 1;
 Myo.connect();
 // console.log("HELLO")
 Myo.on('connected', function(){
@@ -53,7 +54,7 @@ Myo.on('connected', function(){
 
 
 	});
-	var id = setInterval(song, 500);
+	var id = setInterval(song, 200);
 
 // TRYING TO CONNECT gyro data
 // var accdata = {
@@ -113,8 +114,8 @@ function getChord() {
 window.onload = function () {
 	MIDI.loadPlugin({
 		soundfontUrl: "./soundfont/",
-		instrument: "acoustic_grand_piano",
-		// instrument: "acoustic_guitar",
+		instrument: "synth_drum",
+		//instrument: "acoustic_guitar",
 		onprogress: function(state, progress) {
 			console.log(state, progress);
 		},
@@ -123,24 +124,23 @@ window.onload = function () {
 			var note = 50; // the MIDI note
 			var velocity = 10; // how hard the note hits
 			// play the note
-
-			MIDI.setEffects([
-	        {
-		        type: "MoogFilter",
-		        bufferSize: 4096,
-		        bypass: false,
-		        cutoff: 0.065,
-		        resonance: 3.5
-	    	}
-	    	]);
-
+			MIDI.programChange(0,118);
 			MIDI.setVolume(0, 127);
+			MIDI.noteOn(0, 50, 127, 0.1);
 			MIDI.noteOn(0, avg, velocity, delay);
 			//MIDI.noteOn(0, note, velocity, delay);
 			//MIDI.noteOff(0, note, delay + 0.75);
 			Myo.on('fist', function(){
 			    console.log('fist');
-				MIDI.setVolume(0,0);
+			    volumeToggle= !volumeToggle;
+			    if(volumeToggle){
+			    	MIDI.setVolume(0,127);
+			    }
+			    else{
+			    	MIDI.setVolume(0,0);
+			    }
+
+				
 			});
 			Myo.on('tap', function(){
 				MIDI.noteOn(0, getNote(5), 127, 0.01);
