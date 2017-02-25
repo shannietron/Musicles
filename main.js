@@ -117,6 +117,17 @@ window.onload = function () {
 			var note = 50; // the MIDI note
 			var velocity = 10; // how hard the note hits
 			// play the note
+
+			MIDI.setEffects([
+	        {
+		        type: "MoogFilter",
+		        bufferSize: 4096,
+		        bypass: false,
+		        cutoff: 0.065,
+		        resonance: 3.5
+	    	}
+	    	]);
+
 			MIDI.setVolume(0, 127);
 			MIDI.noteOn(0, avg, velocity, delay);
 			//MIDI.noteOn(0, note, velocity, delay);
