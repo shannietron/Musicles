@@ -1,6 +1,7 @@
 var Myo = require('Myo');
-
-
+var normalize = require('feature-scaling');
+var abs = require( 'math-abs' );
+var d3 = require('d3');
 console.log("banououououou");
 
 console.log(Myo);
@@ -9,11 +10,19 @@ Myo.connect();
 
 Myo.on('connected', function(){
   console.log('connected!', this.id)
+  this.streamEMG(true);
+  
+
 });
 
-
-
-
+Myo.on('emg', function(data){
+	var absolute = Math.abs(data);
+    //var normalized = normalize(absolute);
+    for (var i = 0, len = data.length; i < 8; i++) {
+  		data[i]=Math.abs(data[i]);
+	}
+    console.log(data);
+});
 
 console.log("boop")
 
@@ -57,10 +66,14 @@ window.onload = function () {
 			MIDI.setVolume(0, 127);
 			//MIDI.noteOn(0, note, velocity, delay);
 			//MIDI.noteOff(0, note, delay + 0.75);
-			Myo.on('tap', function(){
+			Myo.on('fist', function(){
+			    console.log('fist');
 				MIDI.noteOn(0, getNote(5), 127, 0.01);
-				console.log("tap!!!")
 			});
+			// Myo.on('tap', function(){
+			// 	MIDI.noteOn(0, getNote(5), 127, 0.01);
+			// 	console.log("tap!!!")
+			// });
 
 			Myo.on('hard_tap', function(){
 				MIDI.noteOn(0, 71, 127, 0.01);
