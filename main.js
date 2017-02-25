@@ -8,50 +8,74 @@ console.log(Myo);
 
 var avg= 0;
 Myo.connect();
-
+// console.log("HELLO")
 Myo.on('connected', function(){
   console.log('connected!', this.id)
   this.streamEMG(true);
   
 
-});
+	});
 
-function song(){
-	console.log(Math.ceil(avg))
-	
-	
-	MIDI.noteOn(0, Math.ceil(avg), 127, 0.001);
-
-}
-
-Myo.on('emg', function(data){
-	var absolute = Math.abs(data);
-	var linearScale = d3.scaleLinear()
-	                           .domain([0,70])
-	                           .range([41,76]);
-	var total= 0;
-    //var normalized = normalize(absolute);
-    for (var i = 0, len = data.length; i < 8; i++) {
-  		data[i]=Math.abs(data[i]);
-  		data[i]= linearScale(data[i]);
-  		total += data[i];
+	function song(){
+		console.log(Math.ceil(avg))
+		
+		
+		MIDI.noteOn(0, Math.ceil(avg), 127, 0.001);
 
 	}
-	avg= data[2];
-	// avg= total/data.length;
+
+	Myo.on('emg', function(data){
+		var absolute = Math.abs(data);
+		var linearScale = d3.scaleLinear()
+	                           .domain([0,15])
+	                           .range([41,76]);
+		var total= 0;
+	    //var normalized = normalize(absolute);
+	    for (var i = 0, len = data.length; i < 8; i++) {
+	  		data[i]=Math.abs(data[i]);
+	  		data[i]= linearScale(data[i]);
+	  		total += data[i];
+
+		}
+		avg= data[2]
+		// avg= total/data.length;
 
 
-	
-	// var delayMillis = 1000; //1 second
-
-	// setTimeout(function() {
-	// 		},
-	// 	 delayMillis);
 		
+		// var delayMillis = 1000; //1 second
+
+		// setTimeout(function() {
+		// 		},
+		// 	 delayMillis);
+			
 
 
+	});
+	var id = setInterval(song, 500);
+
+// TRYING TO CONNECT gyro data
+// var accdata = {
+  
+//   acc: {
+//     x: 0,
+//     y: 0,
+//     z: 0
+//   }
+ 
+// };
+Myo.connect();
+
+Myo.on('imu', function(data){
+	var last= this.lastIMU.accelerometer;
+	console.log(last)
+	
+	
+	for (var i = 0, len = data.length; i < 3; i++) {
+	  		data[i]=Math.abs(data[i]);
+	  		// data[i]= linearScale(data[i]);
+	  		}
+	
 });
-var id = setInterval(song, 500);
 
 console.log("boop")
 
@@ -84,6 +108,7 @@ window.onload = function () {
 	MIDI.loadPlugin({
 		soundfontUrl: "./soundfont/",
 		instrument: "acoustic_grand_piano",
+		// instrument: "acoustic_guitar",
 		onprogress: function(state, progress) {
 			console.log(state, progress);
 		},
@@ -96,14 +121,14 @@ window.onload = function () {
 			MIDI.noteOn(0, avg, velocity, delay);
 			//MIDI.noteOn(0, note, velocity, delay);
 			//MIDI.noteOff(0, note, delay + 0.75);
-			// Myo.on('fist', function(){
-			//     console.log('fist');
-			// MIDI.noteOn(0, 50 q, 127, 0.01);
-			// });
-			// Myo.on('tap', function(){
-			// 	MIDI.noteOn(0, getNote(5), 127, 0.01);
-			// 	console.log("tap!!!")
-			// });
+			Myo.on('fist', function(){
+			    console.log('fist');
+				MIDI.setVolume(0,0);
+			});
+			Myo.on('tap', function(){
+				MIDI.noteOn(0, getNote(5), 127, 0.01);
+				console.log("tap!!!")
+			});
 			// function playback(){
 			// 	console.log(avg)
 			// 	MIDI.noteOn(0, avg, 127, 0.01);
