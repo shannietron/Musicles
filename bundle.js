@@ -21,14 +21,14 @@ function song(){
 	console.log(Math.ceil(avg))
 	
 	
-	MIDI.noteOn(0, Math.ceil(avg), 127, 0.01);
+	MIDI.noteOn(0, Math.ceil(avg), 127, 0.001);
 
 }
 
 Myo.on('emg', function(data){
 	var absolute = Math.abs(data);
 	var linearScale = d3.scaleLinear()
-	                           .domain([0,200])
+	                           .domain([0,70])
 	                           .range([41,76]);
 	var total= 0;
     //var normalized = normalize(absolute);
@@ -38,7 +38,8 @@ Myo.on('emg', function(data){
   		total += data[i];
 
 	}
-	avg= total/data.length;
+	avg= data[2];
+	// avg= total/data.length;
 
 
 	
@@ -51,7 +52,7 @@ Myo.on('emg', function(data){
 
 
 });
-var id = setInterval(song, 1000);
+var id = setInterval(song, 500);
 
 console.log("boop")
 
@@ -88,12 +89,12 @@ window.onload = function () {
 			console.log(state, progress);
 		},
 		onsuccess: function() {
-			var delay = 0; // play one note every quarter second
+			var delay = 0.01; // play one note every quarter second
 			var note = 50; // the MIDI note
-			var velocity = 127; // how hard the note hits
+			var velocity = 10; // how hard the note hits
 			// play the note
 			MIDI.setVolume(0, 127);
-			MIDI.noteOn(0, avg, 127, 0.01);
+			MIDI.noteOn(0, avg, velocity, delay);
 			//MIDI.noteOn(0, note, velocity, delay);
 			//MIDI.noteOff(0, note, delay + 0.75);
 			// Myo.on('fist', function(){
