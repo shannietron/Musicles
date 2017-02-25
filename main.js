@@ -9,6 +9,7 @@ console.log(Myo);
 var avg= 0;
 var velocity=0;
 var volumeToggle = 1;
+var instrIndx=0;
 Myo.connect();
 // console.log("HELLO")
 Myo.on('connected', function(){
@@ -118,8 +119,7 @@ function getChord() {
 window.onload = function () {
 	MIDI.loadPlugin({
 		soundfontUrl: "./soundfont/",
-		instrument: "synth_drum",
-		instrument: "acoustic_grand_piano",
+		instrument: instruments[instrIndx],
 		//instrument: "acoustic_guitar",
 		onprogress: function(state, progress) {
 			console.log(state, progress);
@@ -128,6 +128,7 @@ window.onload = function () {
 			var delay = 0.01; // play one note every quarter second
 			var note = 50; // the MIDI note
 			var velocity = 10; // how hard the note hits
+			
 			// play the note
 			MIDI.setVolume(0, 127);
 
@@ -147,8 +148,29 @@ window.onload = function () {
 			MIDI.noteOff(0, 67, 0.7);
 			
 
+			MIDI.setVolume(0, 127);
+			MIDI.noteOn(0, 50, 127, 0.1);
+			MIDI.noteOn(0, avg, velocity, delay);
+			// play the note
+ 
+			var instProg=[0,118,65]; 
+			var instruments= ["acoustic_grand_piano", "synth_drum", "alto_sax"]
+			// MIDI.programChange(0,0); //Acoustic Piano program change
+			// MIDI.programChange(0,118); //Synth drum program change. 
+			// MIDI.programChange(0,65); //Alto-Sax program change 
 
-			// MIDI.noteOn(0, avg, velocity, delay);
+			Myo.on('wave_in', function(){
+				console.log('time to change instrument')
+				var instruToggle= instruToggle+1; 
+				if (instrIndx==instProg.length)
+				{
+					instrIndx=0;
+				}
+				MIDI.programChange(0, instProg[instrIndx]);
+				console.log(instrIndx);
+
+
+			})
 			//MIDI.noteOn(0, note, velocity, delay);
 			//MIDI.noteOff(0, note, delay + 0.75);
 			Myo.on('fist', function(){
@@ -163,6 +185,7 @@ window.onload = function () {
 
 				
 			});
+			
 			Myo.on('tap', function(){
 				MIDI.noteOn(0, getNote(5), 127, 0.01);
 				console.log("tap!!!")
