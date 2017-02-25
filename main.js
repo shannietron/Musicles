@@ -1,5 +1,5 @@
 var Myo = require('Myo');
-var normalize = require('feature-scaling');
+// var normalize = require('feature-scaling');
 var abs = require( 'math-abs' );
 var d3 = require('d3');
 console.log("banououououou");
@@ -17,11 +17,17 @@ Myo.on('connected', function(){
 
 Myo.on('emg', function(data){
 	var absolute = Math.abs(data);
+	var linearScale = d3.scaleLinear()
+	                           .domain([0,200])
+	                           .range([41,76]);
     //var normalized = normalize(absolute);
     for (var i = 0, len = data.length; i < 8; i++) {
   		data[i]=Math.abs(data[i]);
+  		data[i]= linearScale(data[i]);
+
 	}
     console.log(data);
+    // console.log(linearScale(data));
 });
 
 console.log("boop")
@@ -49,6 +55,7 @@ function getChord() {
     var note = chord[5];
     return (5 % 14 == 0) && (m % 3 == 0) ? note + 1 : note;
   }
+
 
 
 window.onload = function () {
