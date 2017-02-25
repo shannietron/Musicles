@@ -1,0 +1,25 @@
+{
+  "name": "musicles",
+  "version": "1.0.0",
+  "description": "Generate music from EMG data",
+  "main": "main.js",
+  "scripts": {
+    "start": "browserify main.js -o bundle.js && http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shannietron/Musicles.git"
+  },
+  "keywords": [
+    "EMG",
+    "MYO",
+    "arm",
+    "band"
+  ],
+  "author": "Shanmugam MPl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shannietron/Musicles/issues"
+  },
+  "homepage": "https://github.com/shannietron/Musicles#readme"
+}
