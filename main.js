@@ -115,14 +115,18 @@ function getChord() {
     return (5 % 14 == 0) && (m % 3 == 0) ? note + 1 : note;
   }
 
+var instProg=[0,118,65]; 
 
 window.onload = function () {
 	MIDI.loadPlugin({
+		
 		soundfontUrl: "./soundfont/",
-		instrument: instruments[instrIndx],
-		//instrument: "acoustic_guitar",
+		instruments: ["acoustic_grand_piano", "synth_drum", "alto_sax"],
+	
+		// instrument: "synth_drum",
 		onprogress: function(state, progress) {
 			console.log(state, progress);
+
 		},
 		onsuccess: function() {
 			var delay = 0.01; // play one note every quarter second
@@ -131,6 +135,7 @@ window.onload = function () {
 			
 			// play the note
 			MIDI.setVolume(0, 127);
+			
 
 			MIDI.noteOn(0, 57 , 127, 0.1);
 			MIDI.noteOff(0, 57, 0.7);
@@ -153,21 +158,25 @@ window.onload = function () {
 			MIDI.noteOn(0, avg, velocity, delay);
 			// play the note
  
-			var instProg=[0,118,65]; 
-			var instruments= ["acoustic_grand_piano", "synth_drum", "alto_sax"]
+			
 			// MIDI.programChange(0,0); //Acoustic Piano program change
 			// MIDI.programChange(0,118); //Synth drum program change. 
 			// MIDI.programChange(0,65); //Alto-Sax program change 
 
 			Myo.on('wave_in', function(){
 				console.log('time to change instrument')
-				var instruToggle= instruToggle+1; 
-				if (instrIndx==instProg.length)
+				instrIndx= instrIndx+1;
+				console.log(instrIndx) 
+				if (instrIndx>=instProg.length)
 				{
 					instrIndx=0;
 				}
+				else
+				{
+					instrIndx=0
+				}
+				
 				MIDI.programChange(0, instProg[instrIndx]);
-				console.log(instrIndx);
 
 
 			})
