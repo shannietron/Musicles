@@ -30,7 +30,9 @@ Myo.on('connected', function(){
 	function song(){
 		// console.log(velocity)
 		
-		MIDI.chordOn(0, chords[chordMap[Math.ceil(avg)]],velocity, 0.1);
+		MIDI.noteOn(0, avg,velocity, 0.1);
+		console.log(avg);
+
 
 	}
 
@@ -59,8 +61,7 @@ Myo.on('connected', function(){
 	// });
 
 	Myo.on('flex_strength', function(val){
-				
-				console.log(Math.ceil(val*1000));
+				avg=Math.ceil(val*500);
 			});
 
 
