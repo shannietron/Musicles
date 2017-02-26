@@ -1,7 +1,10 @@
 # Musicles
-Generate music from EMG data
+Generating music using Electromyography (EMG) data. Basically making your muscles do the heavy lifting for you ;) . Created during HackIllinois 2017, Musicles was designed to allow the creators to understand JavaScript and use a webapp to play music from a Myo band. The Myo band is an EMG based arm- band (https://www.myo.com/) that provides us with raw muscle data as well as accelerometer and gyroscopic data. 
 
-`npm run watch`
-This is a blocking call that watches for source changes and generates a bundle.js using watchify. It'll also spit out whenever it detects a change$.
-`npm run serve` 
-Serves to `localhost:8000` This is due to some ridiculously strange bug in http-serve where -c-1 doesn't disable caching unless you change the port. 	[issue here](https://github.com/angular/angular-seed/issues/193)
+The current implementation of the library uses the strength applied by the user to control the tone of the music being produced and the position of the hand to control the volume. 
+Flex your forearms and hear the sweet sounds of your arms. 
+
+`npm run watch` generates a bundle.js using watchify. It watches for source changes and generates bundle.js
+`npm run serve` Serves to localhost:8000 
+
+
