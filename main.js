@@ -5,6 +5,7 @@ var d3 = require('d3');
 console.log("banououououou");
 
 console.log(Myo);
+var chord= [0, 0, 0, 0, 0, 0, 0 ]
 
 var avg= 0;
 var velocity=0;
@@ -26,52 +27,35 @@ Myo.on('connected', function(){
 //F1:29,F2:41,F3:53,F4:65,F5:77,F6:89,F7:101,
 //G1:31,G2:43,G3:55,G4:67,G5:79,G6:91,G7:103,Gb1:30,Gb2:42,Gb3:54,Gb4:66,Gb5:78,Gb6:90,Gb7:102,
 	function song(){
-		// console.log(Math.ceil(avg))
-		console.log(velocity)
+		console.log(Math.ceil(avg))
+		// console.log(velocity)
 		
-		MIDI.noteOn(0, Math.ceil(avg), velocity, 0.001);
+		MIDI.chordOn(0, chords[chordMap[Math.ceil(avg)]],velocity, 0.001);
 	}
 
 	Myo.on('emg', function(data){
 		var absolute = Math.abs(data);
-		var linearScale = d3.scaleLinear()
-	                           .domain([0,15])
-	                           .range([41,76]);
+		// var linearScale = d3.scaleLinear()
+	 //                           .domain([0,15])
+	 //                           .range([41,76]);
 		var total= 0;
 	    //var normalized = normalize(absolute);
-	    for (var i = 0, len = data.length; i < 8; i++) {
+	    // len = data.length; 
+	    for (var i = 0; i < 8; i++) {
 	  		data[i]=Math.abs(data[i]);
-	  		data[i]= linearScale(data[i]);
-	  		total += data[i];
+	  		data[i]= data[i]%7;
+	  		chord[i]= Math.ceil(data[i])
+	  		total += chord[i];
 
 		}
-		avg= data[2]
-		// avg= total/data.length;
-
-
-		
-		// var delayMillis = 1000; //1 second
-
-		// setTimeout(function() {
-		// 		},
-		// 	 delayMillis);
-			
+		avg= total/(chord.length)
+		var ceil_avg= Math.ceil(avg)
+		// console.log(chords[chordMap[ceil_avg]])
+		// console.log(chord)
 
 
 	});
 	var id = setInterval(song, 200);
-
-// TRYING TO CONNECT gyro data
-// var accdata = {
-  
-//   acc: {
-//     x: 0,
-//     y: 0,
-//     z: 0
-//   }
- 
-// };
-// Myo.connect();
 
 Myo.on('imu', function(data){
 	var last= this.lastIMU.accelerometer;
