@@ -67,7 +67,7 @@ Myo.on('connected', function(){
 		
 	  		last.x= Math.ceil(linearScale(last.x));
 		 
-	  		velocity= last.x;
+	  		velocity= 200-last.x;
 		
 	});
 
