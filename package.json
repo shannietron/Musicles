@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/shannietron/Musicles/issues"
   },
-  "homepage": "https://github.com/shannietron/Musicles#readme"
+  "homepage": "https://github.com/shannietron/Musicles#readme",
+  "dependencies": {
+    "soundfont-player": "^0.10.5"
+  }
 }
