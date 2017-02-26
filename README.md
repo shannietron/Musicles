@@ -11,7 +11,10 @@ Rehabilitation, especially upper arm rehab takes quite a lot of monitoring, in p
 The current implementation of the library uses the strength applied by the user to control the tone of the music being produced :musical_keyboard:. The position of the hand to control the volume. 
 Flex your forearms and hear the sweet sounds of your arms. 
 
+## How to Build it? 
 `npm run watch` generates a bundle.js using watchify. It watches for source changes and generates bundle.js
 `npm run serve` Serves to localhost:8000 
+
+Open localhost:8000
 
 

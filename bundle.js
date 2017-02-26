@@ -49,7 +49,7 @@ Myo.on('connected', function(){
 				max= avg>max?avg:max;
 				var linearScale = d3.scaleLinear()
 	                           .domain([min,max])
-	                           .range([48,107]);
+	                           .range([90,21]);
                	avg= linearScale(avg)
                	// console.log("Min "+ min + "Max "+ max +"Avg "+ avg)
 				console.log(Math.ceil(avg));
@@ -62,13 +62,13 @@ Myo.on('connected', function(){
 		var last= this.lastIMU.accelerometer;
 		// console.log(last)
 		var linearScale = d3.scaleLinear()
-		                           .domain([-2,2])
-		                           .range([0,120]);
+		                           .domain([-1,1])
+		                           .range([0,200]);
 		
 		
 	  		last.x= Math.ceil(linearScale(last.x));
 		 
-	  		velocity= 120-last.x;
+	  		velocity= last.x;
 		
 	});
 
