@@ -64,11 +64,9 @@ Myo.on('connected', function(){
 		                           .domain([-2,2])
 		                           .range([0,120]);
 		
-		// for (var i = 0, len = last.length; i < 2; i++) {
-		  		// console.log(last.x)
+		
 	  		last.x= Math.ceil(linearScale(last.x));
-		  		// console.log(last[i])
-		  		// }
+		 
 	  		velocity= 120-last.x;
 		
 	});
@@ -110,28 +108,6 @@ window.onload = function () {
 			
 			// play the note
 			MIDI.setVolume(0, 127);
-			
-
-			// MIDI.noteOn(0, 57 , 127, 0.1);
-			// MIDI.noteOff(0, 57, 0.7);
-			// MIDI.noteOn(0, 59 , 127, 0.2);
-			// MIDI.noteOff(0, 59, 0.7);
-			// MIDI.noteOn(0, 60 , 127, 0.3);
-			// MIDI.noteOff(0, 60, 0.7);
-			// MIDI.noteOn(0, 62 , 127, 0.4);
-			// MIDI.noteOff(0, 62, 0.7);
-			// MIDI.noteOn(0, 64 , 127, 0.5);
-			// MIDI.noteOff(0, 64, 0.7);
-			// MIDI.noteOn(0, 65 , 127, 0.6);
-			// MIDI.noteOff(0, 65, 0.7);
-			// MIDI.noteOn(0, 67 , 127, 0.7);
-			// MIDI.noteOff(0, 67, 0.7);
-			
-
-			// MIDI.setVolume(0, 127);
-			// MIDI.noteOn(0, 50, 127, 0.1);
-			// MIDI.noteOn(0, avg, velocity, delay);
-			// play the note
  
 			
 			// MIDI.programChange(0,0); //Acoustic Piano program change
@@ -175,9 +151,7 @@ window.onload = function () {
 				MIDI.noteOn(0, getNote(5), 127, 0.01);
 				console.log("tap!!!")
 			});
-			// function playback(){
-			// 	console.log(avg)
-			// 	MIDI.noteOn(0, avg, 127, 0.01);
+			
 
 			// }
 			// var id = setInterval('playback();',1000)
